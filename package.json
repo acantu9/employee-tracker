@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "inquirer": "^8.2.4",
-    "mysql2": "^3.6.3"
+    "inquirer": "^8.2.6",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.6.3",
+    "sudo": "^1.0.3"
   }
 }
