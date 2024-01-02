@@ -17,12 +17,12 @@ INSERT INTO roles (title, salary, department_id) VALUES
   ('HR Manager', 70000, 4);
 
 -- Insert employees
-INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES
-  ('John', 'Doe', 1, NULL),
-  ('Jane', 'Smith', 2, 1),
-  ('Mike', 'Johnson', 3, 2),
-  ('Emily', 'Williams', 4, 2),
-  ('David', 'Brown', 5, 3),
-  ('Sarah', 'Davis', 6, 3),
-  ('Alex', 'Wilson', 7, 4),
-  ('Jessica', 'Taylor', 8, 4);
+INSERT INTO employees (first_name, last_name, role_id, department_id, salary, manager_id) VALUES
+  ('John', 'Doe', 1, 1, 80000, NULL),
+  ('Jane', 'Smith', 2, 2, 95000, 1),
+  ('Mike', 'Johnson', 3, 4, 45000, 2),
+  ('Emily', 'Williams', 4, 4, 70000, 2),
+  ('David', 'Brown', 5, 3, 60000, 3),
+  ('Sarah', 'Davis', 6, 2, 75000, 3),
+  ('Alex', 'Wilson', 7, 1, 50000, 4),
+  ('Jessica', 'Taylor', 8, 3, 80000, 4);
