@@ -86,27 +86,30 @@ function viewAllEmployees() {
 }
 
 // Add a department
-function addDepartment() {
- inquirer.prompt([
+async function addDepartment() {
+  const answers = await inquirer.prompt([
     {
       type: 'input',
       name: 'departmentName',
       message: 'Enter the name of the department:',
     },
-  ])
-    .then((answers) => {
-      const query = 'INSERT INTO departments SET ?';
-      connection.query(query, { name: answers.departmentName }, (err, res) => {
-        if (err) throw err;
-        console.log(`${answers.departmentName} added to the database.`);
-        displayMainMenu();
-      });
-    });
+  ]);
+
+  const query = 'INSERT INTO departments SET ?';
+  connection.query(
+    query,
+    { name: answers.departmentName },
+    (err, res) => {
+      if (err) throw err;
+      console.log(`${answers.departmentName} added to the database.`);
+      displayMainMenu();
+    }
+  );
 }
 
 // Add a role
-function addRole() {
- inquirer.prompt([
+async function addRole() {
+  const answers = await inquirer.prompt([
     {
       type: 'input',
       name: 'roleName',
@@ -122,20 +125,27 @@ function addRole() {
       name: 'roleDepartment',
       message: 'Enter the department ID of the role:',
     },
-  ])
-    .then((answers) => {
-      const query = 'INSERT INTO roles SET ?';
-      connection.query(query, { title: answers.roleName, salary: answers.roleSalary, department_id: answers.roleDepartment }, (err, res) => {
-        if (err) throw err;
-        console.log(`${answers.roleName} added to the database.`);
-        displayMainMenu();
-      });
-    });
+  ]);
+
+  const query = 'INSERT INTO roles SET ?';
+  connection.query(
+    query,
+    {
+      title: answers.roleName,
+      salary: answers.roleSalary,
+      department_id: answers.roleDepartment,
+    },
+    (err, res) => {
+      if (err) throw err;
+      console.log(`${answers.roleName} added to the database.`);
+      displayMainMenu();
+    }
+  );
 }
 
 // Add an employee
-function addEmployee() {
- inquirer.prompt([
+async function addEmployee() {
+  const answers = await inquirer.prompt([
     {
       type: 'input',
       name: 'employeeFirstName',
@@ -156,20 +166,28 @@ function addEmployee() {
       name: 'employeeManager',
       message: "Enter the employee's manager ID:",
     },
-  ])
-    .then((answers) => {
-      const query = 'INSERT INTO employees SET ?';
-      connection.query(query, { first_name: answers.employeeFirstName, last_name: answers.employeeLastName, role_id: answers.employeeRole, manager_id: answers.employeeManager }, (err, res) => {
-        if (err) throw err;
-        console.log(`${answers.employeeFirstName} ${answers.employeeLastName} added to the database.`);
-        displayMainMenu();
-      });
-    });
+  ]);
+
+  const query = 'INSERT INTO employees SET ?';
+  connection.query(
+    query,
+    {
+      first_name: answers.employeeFirstName,
+      last_name: answers.employeeLastName,
+      role_id: answers.employeeRole,
+      manager_id: answers.employeeManager,
+    },
+    (err, res) => {
+      if (err) throw err;
+      console.log(`${answers.employeeFirstName} ${answers.employeeLastName} added to the database.`);
+      displayMainMenu();
+    }
+  );
 }
 
 // Update an employee role
-function updateEmployeeRole() {
- inquirer.prompt([
+async function updateEmployeeRole() {
+  const answers = await inquirer.prompt([
     {
       type: 'input',
       name: 'employeeId',
@@ -180,15 +198,18 @@ function updateEmployeeRole() {
       name: 'newRoleId',
       message: "Enter the ID of the employee's new role:",
     },
-  ])
-    .then((answers) => {
-      const query = 'UPDATE employees SET ? WHERE ?';
-      connection.query(query, [{ role_id: answers.newRoleId }, { id: answers.employeeId }], (err, res) => {
-        if (err) throw err;
-        console.log(`Employee role updated in the database.`);
-        displayMainMenu();
-      });
-    });
+  ]);
+
+  const query = 'UPDATE employees SET ? WHERE ?';
+  connection.query(
+    query,
+    [{ role_id: answers.newRoleId }, { id: answers.employeeId }],
+    (err, res) => {
+      if (err) throw err;
+      console.log(`Employee role updated in the database.`);
+      displayMainMenu();
+    }
+  );
 }
 
 // Start the application
