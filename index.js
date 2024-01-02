@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const connection = require('C:/Users/ACantu/OneDrive/Desktop/challenges/week-12/employee-tracker/database');
+const connection = require('./database');
 
 // Define the questions
 const questions = [
