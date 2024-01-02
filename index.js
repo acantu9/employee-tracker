@@ -3,87 +3,53 @@ const connection = require('./database');
 
 // Function to display the main menu options
 async function displayMainMenu() {
-  const answers = await inquirer.prompt([
-    {
-      type: 'list',
-      name: 'option',
-      message: 'What would you like to do?',
-      choices: [
-        'View all departments',
-        'View all roles',
-        'View all employees',
-        'Add a department',
-        'Add a role',
-        'Add an employee',
-        'Update an employee role',
-        'Exit'
-      ]
+  while (true) {
+    const answers = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'option',
+        message: 'What would you like to do?',
+        choices: [
+          'View all departments',
+          'View all roles',
+          'View all employees',
+          'Add a department',
+          'Add a role',
+          'Add an employee',
+          'Update an employee role',
+          'Exit'
+        ]
+      }
+    ]);
+
+    // Call the appropriate function based on the selected option
+    switch (answers.option) {
+      case 'View all departments':
+        viewAllDepartments();
+        break;
+      case 'View all roles':
+        viewAllRoles();
+        break;
+      case 'View all employees':
+        viewAllEmployees();
+        break;
+      case 'Add a department':
+        addDepartment();
+        break;
+      case 'Add a role':
+        addRole();
+        break;
+      case 'Add an employee':
+        addEmployee();
+        break;
+      case 'Update an employee role':
+        updateEmployeeRole();
+        break;
+      case 'Exit':
+        console.log('Goodbye!');
+        process.exit(0);
     }
-  ]);
-
-  // Call the appropriate function based on the selected option
-  switch (answers.option) {
-    case 'View all departments':
-      viewAllDepartments();
-      break;
-    case 'View all roles':
-      viewAllRoles();
-      break;
-    case 'View all employees':
-      viewAllEmployees();
-      break;
-    case 'Add a department':
-      addDepartment();
-      break;
-    case 'Add a role':
-      addRole();
-      break;
-    case 'Add an employee':
-      addEmployee();
-      break;
-    case 'Update an employee role':
-      updateEmployeeRole();
-      break;
-    case 'Exit':
-      console.log('Goodbye!');
-      process.exit(0);
   }
-}
-
-// Handle user input
-function handleUserInput(answers) {
- switch (answers.menu) {
-    case 'View All Departments':
-      viewAllDepartments();
-      break;
-    case 'View All Roles':
-      viewAllRoles();
-      break;
-    case 'View All Employees':
-      viewAllEmployees();
-      break;
-    case 'Add A Department':
-      addDepartment();
-      break;
-    case 'Add A Role':
-      addRole();
-      break;
-    case 'Add An Employee':
-      addEmployee();
-      break;
-    case 'Update An Employee Role':
-      updateEmployeeRole();
-      break;
- }
-}
-
-// Run the CLI application
-function runCLI() {
- inquirer.prompt(questions)
-    .then(handleUserInput)
-    .catch((err) => {
-      if (err) throw err;
-    });
 }
 
 // View all departments
@@ -93,7 +59,7 @@ function viewAllDepartments() {
     if (err) throw err;
     console.log('\n');
     console.table(res);
-    runCLI();
+    displayMainMenu();
  });
 }
 
@@ -104,7 +70,7 @@ function viewAllRoles() {
     if (err) throw err;
     console.log('\n');
     console.table(res);
-    runCLI();
+    displayMainMenu();
  });
 }
 
@@ -115,7 +81,7 @@ function viewAllEmployees() {
     if (err) throw err;
     console.log('\n');
     console.table(res);
-    runCLI();
+    displayMainMenu();
  });
 }
 
@@ -133,7 +99,7 @@ function addDepartment() {
       connection.query(query, { name: answers.departmentName }, (err, res) => {
         if (err) throw err;
         console.log(`${answers.departmentName} added to the database.`);
-        runCLI();
+        displayMainMenu();
       });
     });
 }
@@ -162,7 +128,7 @@ function addRole() {
       connection.query(query, { title: answers.roleName, salary: answers.roleSalary, department_id: answers.roleDepartment }, (err, res) => {
         if (err) throw err;
         console.log(`${answers.roleName} added to the database.`);
-        runCLI();
+        displayMainMenu();
       });
     });
 }
@@ -196,7 +162,7 @@ function addEmployee() {
       connection.query(query, { first_name: answers.employeeFirstName, last_name: answers.employeeLastName, role_id: answers.employeeRole, manager_id: answers.employeeManager }, (err, res) => {
         if (err) throw err;
         console.log(`${answers.employeeFirstName} ${answers.employeeLastName} added to the database.`);
-        runCLI();
+        displayMainMenu();
       });
     });
 }
@@ -220,7 +186,7 @@ function updateEmployeeRole() {
       connection.query(query, [{ role_id: answers.newRoleId }, { id: answers.employeeId }], (err, res) => {
         if (err) throw err;
         console.log(`Employee role updated in the database.`);
-        runCLI();
+        displayMainMenu();
       });
     });
 }
