@@ -1,15 +1,54 @@
 const inquirer = require('inquirer');
 const connection = require('./database');
 
-// Define the questions
-const questions = [
- {
-    type: 'list',
-    name: 'menu',
-    message: 'What would you like to do?',
-    choices: ['View All Departments', 'View All Roles', 'View All Employees', 'Add A Department', 'Add A Role', 'Add An Employee', 'Update An Employee Role'],
- },
-];
+// Function to display the main menu options
+async function displayMainMenu() {
+  const answers = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'option',
+      message: 'What would you like to do?',
+      choices: [
+        'View all departments',
+        'View all roles',
+        'View all employees',
+        'Add a department',
+        'Add a role',
+        'Add an employee',
+        'Update an employee role',
+        'Exit'
+      ]
+    }
+  ]);
+
+  // Call the appropriate function based on the selected option
+  switch (answers.option) {
+    case 'View all departments':
+      viewAllDepartments();
+      break;
+    case 'View all roles':
+      viewAllRoles();
+      break;
+    case 'View all employees':
+      viewAllEmployees();
+      break;
+    case 'Add a department':
+      addDepartment();
+      break;
+    case 'Add a role':
+      addRole();
+      break;
+    case 'Add an employee':
+      addEmployee();
+      break;
+    case 'Update an employee role':
+      updateEmployeeRole();
+      break;
+    case 'Exit':
+      console.log('Goodbye!');
+      process.exit(0);
+  }
+}
 
 // Handle user input
 function handleUserInput(answers) {
@@ -49,7 +88,7 @@ function runCLI() {
 
 // View all departments
 function viewAllDepartments() {
- const query = 'SELECT * FROM department';
+ const query = 'SELECT * FROM departments';
  connection.query(query, (err, res) => {
     if (err) throw err;
     console.log('\n');
@@ -60,7 +99,7 @@ function viewAllDepartments() {
 
 // View all roles
 function viewAllRoles() {
- const query = 'SELECT * FROM role';
+ const query = 'SELECT * FROM roles';
  connection.query(query, (err, res) => {
     if (err) throw err;
     console.log('\n');
@@ -71,7 +110,7 @@ function viewAllRoles() {
 
 // View all employees
 function viewAllEmployees() {
- const query = 'SELECT * FROM employee';
+ const query = 'SELECT * FROM employees';
  connection.query(query, (err, res) => {
     if (err) throw err;
     console.log('\n');
@@ -90,7 +129,7 @@ function addDepartment() {
     },
   ])
     .then((answers) => {
-      const query = 'INSERT INTO department SET ?';
+      const query = 'INSERT INTO departments SET ?';
       connection.query(query, { name: answers.departmentName }, (err, res) => {
         if (err) throw err;
         console.log(`${answers.departmentName} added to the database.`);
@@ -119,7 +158,7 @@ function addRole() {
     },
   ])
     .then((answers) => {
-      const query = 'INSERT INTO role SET ?';
+      const query = 'INSERT INTO roles SET ?';
       connection.query(query, { title: answers.roleName, salary: answers.roleSalary, department_id: answers.roleDepartment }, (err, res) => {
         if (err) throw err;
         console.log(`${answers.roleName} added to the database.`);
@@ -153,7 +192,7 @@ function addEmployee() {
     },
   ])
     .then((answers) => {
-      const query = 'INSERT INTO employee SET ?';
+      const query = 'INSERT INTO employees SET ?';
       connection.query(query, { first_name: answers.employeeFirstName, last_name: answers.employeeLastName, role_id: answers.employeeRole, manager_id: answers.employeeManager }, (err, res) => {
         if (err) throw err;
         console.log(`${answers.employeeFirstName} ${answers.employeeLastName} added to the database.`);
@@ -177,7 +216,7 @@ function updateEmployeeRole() {
     },
   ])
     .then((answers) => {
-      const query = 'UPDATE employee SET ? WHERE ?';
+      const query = 'UPDATE employees SET ? WHERE ?';
       connection.query(query, [{ role_id: answers.newRoleId }, { id: answers.employeeId }], (err, res) => {
         if (err) throw err;
         console.log(`Employee role updated in the database.`);
@@ -185,3 +224,6 @@ function updateEmployeeRole() {
       });
     });
 }
+
+// Start the application
+displayMainMenu();
