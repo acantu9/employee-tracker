@@ -102,7 +102,6 @@ async function addDepartment() {
     (err, res) => {
       if (err) throw err;
       console.log(`${answers.departmentName} added to the database.`);
-      displayMainMenu();
     }
   );
 }
@@ -138,7 +137,6 @@ async function addRole() {
     (err, res) => {
       if (err) throw err;
       console.log(`${answers.roleName} added to the database.`);
-      displayMainMenu();
     }
   );
 }
@@ -180,7 +178,6 @@ async function addEmployee() {
     (err, res) => {
       if (err) throw err;
       console.log(`${answers.employeeFirstName} ${answers.employeeLastName} added to the database.`);
-      displayMainMenu();
     }
   );
 }
@@ -207,7 +204,6 @@ async function updateEmployeeRole() {
     (err, res) => {
       if (err) throw err;
       console.log(`Employee role updated in the database.`);
-      displayMainMenu();
     }
   );
 }
